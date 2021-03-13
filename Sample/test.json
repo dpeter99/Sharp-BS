@@ -1,0 +1,51 @@
+{
+  "name": "Erythro",
+  "author": "Curle",
+  "source": {
+    "src": [
+      "$root/erythro/src/*.c"
+    ],
+    "inc": [
+      "$root/erythro/include/"
+    ]
+  },
+  
+  "build": {
+    "compile": [
+      "-I$inc",
+      "$src"
+    ],
+    "publish-compress":[
+      "$assets$",
+      "$OUTPUT_DIR$/assets.zip"
+    ] 
+  },
+
+  "build-2": {
+    "compile":
+    {
+      "from": "cpp",
+      "args": [
+        "-I$inc $config",
+        "$src"
+      ]
+    },
+    "compress":{
+      "if_config": "publish",
+      "from": "game-builder-plugin",
+      "args": [
+        "$assets$",
+        "$OUTPUT_DIR$/assets.zip"
+      ]
+    }
+  },
+
+  
+  "debug": {
+    "parent": "build",
+    "compile": [
+      "-g",
+      "$PARENT$"
+    ]
+  }
+}

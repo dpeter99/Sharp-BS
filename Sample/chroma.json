@@ -1,0 +1,36 @@
+{
+  "name": "Chroma",
+
+  "target": "x86_64-elf-gcc",
+  "source": {
+    "main": [
+      "$root/Chroma/global/crt*.o",
+      "$root/Chroma/**/*.c",
+      "-$root/Chroma/system/interrupts.c"
+    ],
+    "no-sse": [
+      "$root/Chroma/system/interrupts.c"
+    ],
+    "inc": [
+      "$root/Chroma/include/"
+    ]
+  },
+
+  "build": {
+    "compile-no-sse": [
+      "FLAGS FLAGS FLAGS",
+      "$no-sse"
+    ],
+    "compile-main": [
+      "FLAGS FLAGS",
+      "$main"
+    ],
+    "link": [
+      "FLAGS FLAGS",
+      "%.o"
+    ],
+    "output": [
+      "Chroma.elf"
+    ]
+  }
+}
