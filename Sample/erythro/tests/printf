@@ -1,0 +1,6 @@
+int :: printf(char* format);
+
+int :: main () {
+    printf("%s\r\n", "hi there");
+    return (0);
+}

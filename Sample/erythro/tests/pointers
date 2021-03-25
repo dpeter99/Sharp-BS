@@ -1,0 +1,22 @@
+int :: main() {
+  char  a;
+  char *b;
+  char  c;
+  int   d;
+  int  *e;
+  int   f;
+
+  a= 18; 
+  PrintInteger(a);
+  b= &a; 
+  c= *b; 
+  PrintInteger(c);
+
+  d= 12; 
+  PrintInteger(d);
+  e= &d; 
+  f= *e; 
+  PrintInteger(f);
+  
+  return(0);
+}

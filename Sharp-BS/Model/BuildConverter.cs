@@ -28,10 +28,10 @@ namespace Sharp_BS.Model
 
                     foreach (var p in property.Value.EnumerateArray())
                     {
-                        patterns.Args.Add(p.GetString() ?? string.Empty);
+                        patterns.args.Add(p.GetString() ?? string.Empty);
                     }
 
-                    set.steps.TryAdd(property.Name, patterns);
+                    set.steps.Add(patterns);
                 }
             }
 

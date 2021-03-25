@@ -1,0 +1,17 @@
+void :: main() {
+    
+    int x;
+    char y;
+
+    x = 20; print x;
+
+    y = 10; print y;
+
+    for(x = 1; x <= 5; x = x + 1) {
+        print x;
+    }
+
+    for(y = 253; y != 2; y = y + 1) {
+        print y;
+    }
+}

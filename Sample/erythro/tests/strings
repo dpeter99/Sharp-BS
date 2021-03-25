@@ -1,0 +1,10 @@
+int :: main() {
+    char* str;
+    int x;
+    str = "Testingggs";
+    x = 14;
+
+    PrintString(str);
+    PrintInteger(x);
+    return (0);
+}

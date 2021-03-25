@@ -1,0 +1,13 @@
+{
+    int hey;
+    int sup;
+
+    hey = 15;
+    sup = 20;
+
+    if(hey < sup) {
+        print hey;
+    } else {
+        print sup;
+    }
+}

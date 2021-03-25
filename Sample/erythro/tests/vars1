@@ -1,0 +1,9 @@
+int first;
+int second;
+int third;
+
+first = 5;
+second = 8;
+third = first * 5 + second / 4;
+
+print third - 10;

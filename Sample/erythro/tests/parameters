@@ -1,0 +1,16 @@
+i32 :: params(int a, int b, int c, int d, int e, int f, int g, int h) {
+    PrintInteger(a); PrintInteger(b); PrintInteger(c); PrintInteger(d); PrintInteger(e); PrintInteger(f); PrintInteger(g); PrintInteger(h); 
+    return(0);
+}
+
+int :: add(i32 a, i32 b, i32 c) {
+    return (a + b + c);
+}
+
+i32 :: main() {
+    int Temp;
+    params(1, 2, 3, 5, 8, 13, 21, 34);
+    Temp = add(2, 3, 4);
+    PrintInteger(Temp);
+    return (0);
+}

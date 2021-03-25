@@ -1,0 +1,13 @@
+void :: main() {
+    int x;
+    int y;
+    int m;
+   
+    x = 5;
+    y = 50;
+    m = 300;
+   
+    print m;
+    print y;
+    print x;
+}

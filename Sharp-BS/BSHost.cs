@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Jint;
-using Jint.Runtime.Debugger;
+using Microsoft.ClearScript;
+using Microsoft.ClearScript.V8;
+using Sharp_BS.JSInterop;
 using Sharp_BS.Model;
 using Util.Singleton;
 
@@ -22,9 +23,10 @@ namespace Sharp_BS
         public Registry<FileExtensionPlugin> Extensions = new();
         public Registry<string> BuildVariables = new();
 
-        private Jint.Engine jsEngine;
-        //private Microsoft.ClearScript.V8.V8ScriptEngine jsEngine;
-        
+        //private Jint.Engine jsEngine;
+        private Microsoft.ClearScript.V8.V8ScriptEngine jsEngine;
+        private HostFunctions _hostFunctions;
+
         public BSHost(string projectFile)
         {
             FileInfo file = new FileInfo(projectFile);
@@ -39,22 +41,19 @@ namespace Sharp_BS
             ProjectPath = file.Directory?.FullName!;
             BuildVariables.Register("root",ProjectPath);
 
-            jsEngine = new Engine((engine, options) =>
-            {
-                options.DebugMode(true);
-                options.AddObjectConverter<ProjectConverter>();
-            });
-            
-            
 
-            jsEngine.SetValue("Log", new Action<object>(PluginLog));
-            jsEngine.SetValue("BSHost", this);
-            jsEngine.SetValue("Exec", new Action<object>(PluginLog));
+            V8ScriptEngineFlags flags = V8ScriptEngineFlags.None;
+            //flags = V8ScriptEngineFlags.EnableDebugging | V8ScriptEngineFlags.AwaitDebuggerAndPauseOnStart;
+            
+            jsEngine = new V8ScriptEngine(flags);
 
-            jsEngine.Break += (sender, information) =>
-            {
-                return StepMode.None;
-            };
+
+            _hostFunctions = new HostFunctions();
+            jsEngine.AddHostObject("host", _hostFunctions);
+
+            jsEngine.AddHostObject("Log", new Action<object>(PluginLog));
+            jsEngine.AddHostObject("BSHost", this);
+            jsEngine.AddHostObject("Exec", new Action<object>(PluginLog));
 
         }
 
@@ -62,14 +61,27 @@ namespace Sharp_BS
         {
             var exts = extensions.Split(' ').ToList();
             
-            BuildSteps.Register(name, new BuildStep(action,exts));
+            BuildSteps.Register(name, new BuildStep(exts, action));
         }
+        
+        public void RegisterBuildStep(string name,string extensions, object action)
+        {
+            RegisterBuildStep(name,extensions,(Action<string[]>)_hostFunctions.proc(1,action));
+        }
+        
         
         public void RegisterFileExtension(string extension, Action<Project> action)
         {
             Extensions.Register(extension, new FileExtensionPlugin(extension,action));
         }
+        
+        public void RegisterFileExtension(string extension, object action)
+        {
+            //RegisterFileExtension(extension,(Action<Project>)_hostFunctions.proc(1,action));
+            RegisterFileExtension(extension, JSInteropRunner.MakeAction(action,_hostFunctions));
+        }
 
+        
         public void Build()
         {
             //Expand the file tree
@@ -91,7 +103,12 @@ namespace Sharp_BS
 
                 foreach (var extension in extensions)
                 {
-                    Extensions.Get(extension)?.action.Invoke(Project);
+                    var ext = Extensions.Get(extension);
+                    if (ext is not null)
+                    {
+                        ext.action.Invoke(Project);
+                    }
+                        
                 }
                 
             }
@@ -100,7 +117,7 @@ namespace Sharp_BS
             {
                 var args = new List<string>();
                 var extensions = new List<string>();
-                foreach (var valueArg in step.Value.Args)
+                foreach (var valueArg in step.args)
                 {
                     args.Add(TemplateString(valueArg));
 
@@ -142,8 +159,8 @@ namespace Sharp_BS
                 }
             }
 
-            var path_done = pathBuilder.ToString();
-            return path_done;
+            var pathDone = pathBuilder.ToString();
+            return pathDone;
         }
         
         public List<string> GetTemplateTags(string path)

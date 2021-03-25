@@ -1,0 +1,16 @@
+int :: Testings() {
+    return (40);
+}
+
+void :: main() {
+    int Result;
+
+    PrintInteger(10);
+    
+    Result = Testings(10);
+
+    PrintInteger(Result);
+
+    PrintInteger(Testings(10) + i);
+    
+}

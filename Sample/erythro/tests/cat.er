@@ -1,0 +1,26 @@
+int :: open(char* pathname, int flags);
+int :: read(int fd, char* buffer, int size);
+int :: write(int fd, void* buffer, int size);
+int :: close(int fd);
+
+char* textbuffer;
+
+int :: main() {
+    int sourcefile;
+    int count;
+
+    textbuffer = "                                                             ";
+
+    sourcefile = open("tests/cat.er", 0);
+    if(sourcefile =? -1) {
+        return (1);
+    }
+
+    while((count = read(sourcefile, textbuffer, 60)) > 0) {
+        write(1, textbuffer, count);
+    }
+
+    close(sourcefile);
+
+    return (0);
+}

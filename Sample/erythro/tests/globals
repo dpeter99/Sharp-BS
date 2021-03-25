@@ -1,0 +1,16 @@
+int x, y;
+int* z;
+
+void :: main() {
+    int a, b, c;
+
+    b = 3; c = 8;
+    a = b + c * 10;
+    PrintInteger(a);
+
+    x = 12; PrintInteger(x);
+    z = &x;
+    y = *z;
+    PrintInteger(y);
+
+}

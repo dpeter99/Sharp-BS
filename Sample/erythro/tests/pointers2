@@ -1,0 +1,14 @@
+int   c;
+int   d;
+int  *e;
+int   f;
+
+int :: main() {
+  c= 12;
+  d=18;
+  PrintInteger(c);
+  e= &c + 1;
+  f= *e;
+  PrintInteger(f);
+  return(0);
+}

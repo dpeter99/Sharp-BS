@@ -1,0 +1,23 @@
+int x;
+
+x = 1 < 2;
+print x;
+
+x = 1 <= 2;
+print x;
+
+x = 1 > 2;
+print x;
+
+x = 1 => 2;
+print x;
+
+x = 1 != 2;
+print x;
+
+x = 1 =? 2;
+print x;
+
+x = 18 =? 18;
+print x;
+
