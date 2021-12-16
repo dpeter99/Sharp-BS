@@ -1,0 +1,43 @@
+{
+  "name": "Chroma",
+  "version": "0.0.1",
+  "authors": ["Anthony Anderson","and mee"],
+  "license": "MPL-2",
+  "plugins": ["cc"],
+  "files":{
+      "kernel_c":[
+        "${root}/src/*.c" 
+      ],
+      "kernel_inc":[
+        "${root}/inc/*.h" 
+      ]
+  },
+  "variables":{
+    "outDir":"${root}/out"
+  },
+  "steps": [
+    {
+      "plugin": "cc",
+      "out": "${outDir}/kernel",
+      "toolchain": {
+        "compiler": "x86_64-elf-gcc",
+        "architectures": ["x64"],
+        "platforms": ["Generic"]
+      },
+      "source": {
+        "src": [
+          "${workDir}/src/${GLOB}"
+        ],
+        "inc": [
+          "${workDir}/include/"
+        ]
+      },
+      "build": {
+        "compile": [
+          "-ffreestanding -O0 -Wall -Wextra -Wall -Werror -fPIC -fno-exceptions -fno-omit-frame-pointer -mno-red-zone -fno-stack-protector -ggdb3",
+          "${cc:source::src}"
+        ]
+      }
+    }
+  ]
+}
