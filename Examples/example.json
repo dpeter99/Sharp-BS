@@ -1,21 +1,16 @@
 {
   "name": "Chroma",
-  "version": "0.0.1",
-  "authors": ["Anthony Anderson","and mee"],
+  "version": "0.0.2",
+  "authors": ["Anthony Anderson", "and mee"],
   "license": "MPL-2",
-  "plugins": ["cc"],
-  "files":{
-      "kernel_c":[
-        "${root}/src/*.c" 
-      ],
-      "kernel_inc":[
-        "${root}/inc/*.h" 
-      ]
+  
+  "variables": {
+    "outDir": "${root}/out",
+    "kernel_src": "${root}/src/*.c",
+    "kernel_inc": "${root}/inc/*.h"
   },
-  "variables":{
-    "outDir":"${root}/out"
-  },
-  "steps": [
+  
+  "plugins": [
     {
       "plugin": "cc",
       "out": "${outDir}/kernel",
@@ -25,19 +20,47 @@
         "platforms": ["Generic"]
       },
       "source": {
-        "src": [
-          "${workDir}/src/${GLOB}"
-        ],
-        "inc": [
-          "${workDir}/include/"
-        ]
+        "src": ["${kernel_src}"],
+        "inc": ["${kernel_inc}"]
       },
-      "build": {
-        "compile": [
+      "tasks": {
+        "compile":[
+          "${debug}",
           "-ffreestanding -O0 -Wall -Wextra -Wall -Werror -fPIC -fno-exceptions -fno-omit-frame-pointer -mno-red-zone -fno-stack-protector -ggdb3",
-          "${cc:source::src}"
+          "${source::src}"
+        ],
+        "link": [
+          "Legend of Zelda?"
         ]
       }
+    },
+    {
+      "plugin": "cli",
+      "tasks": {
+        "make_iso":[
+          "./post.sh"
+        ]
+      }
+    }
+  ],
+  
+  "steps": [
+    "@{cc::tasks::compile}",
+    "@{cc::tasks::link}",
+    {
+      "if": "${debug}",
+      "task": "@{cli::tasks::make_iso}"
+    }
+  ],
+  
+  "configs": [
+    {
+      "name": "release",
+      "default": false
+    },
+    {
+      "name": "debug",
+      "variables": ["debug"] 
     }
   ]
 }

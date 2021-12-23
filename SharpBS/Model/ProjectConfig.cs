@@ -7,9 +7,9 @@ namespace SharpBS.Model
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
-        
-        [JsonPropertyName("plugins")]
-        public List<string> Plugins { get; set; }
+
+        [JsonPropertyName("plugins")] 
+        public List<string> Plugins { get; set; } = new();
         
         [JsonPropertyName("steps")]
         public List<object> Steps { get; set; }

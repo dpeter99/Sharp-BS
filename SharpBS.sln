@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBS", "SharpBS\SharpBS.csproj", "{189A743F-B3FE-4C97-B3D7-BC3239966A2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpBS.Tests", "SharpBS.Tests\SharpBS.Tests.csproj", "{CD350B25-7F38-4556-BD05-BD0597DA4D8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{189A743F-B3FE-4C97-B3D7-BC3239966A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{189A743F-B3FE-4C97-B3D7-BC3239966A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{189A743F-B3FE-4C97-B3D7-BC3239966A2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD350B25-7F38-4556-BD05-BD0597DA4D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD350B25-7F38-4556-BD05-BD0597DA4D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD350B25-7F38-4556-BD05-BD0597DA4D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD350B25-7F38-4556-BD05-BD0597DA4D8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

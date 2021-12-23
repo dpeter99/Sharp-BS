@@ -1,0 +1,37 @@
+﻿{
+  "name": "Chroma",
+  "version": "0.0.1",
+  "authors": ["Anthony Anderson", "and mee"],
+  "license": "MPL-2",
+
+  "plugins": [
+    {
+      "plugin": "cc",
+      "out": "${root}/out",
+      "toolchain": {
+        "compiler": "clang"
+      },
+      "source": {
+        "src": ["${root}/src/*.c"],
+        "inc": ["${root}/inc/*.h"]
+      }
+    }
+  ],
+
+  "runners": [
+    {
+      "name": "release",
+      "steps": [{
+        "plugin": "cc",
+        "compile": []
+      }],
+      "default": false,
+      "properties": []
+    },
+    {
+      "name": "debug",
+      "parent": "release",
+      "variables": ["debug"]
+    }
+  ]
+}

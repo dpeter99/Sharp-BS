@@ -5,12 +5,15 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Core;
 using SharpBS.Model;
+using SharpBS.Plugins;
+using SharpBS.Utils;
 
 namespace SharpBS
 {
-    public class BSHost
+    public class BSHost : Singleton<BSHost>
     {
-        private string? _projectPath;
+        public BSProject Project { get; private set; }
+        public string? _projectPath { get; private set; }
         
         public BSHost()
         {
@@ -19,6 +22,8 @@ namespace SharpBS
                 .CreateLogger();
             
             Log.Information("Starting BS!");
+
+            new JSEngine();
         }
 
         public void OpenProject(string path)
@@ -26,9 +31,9 @@ namespace SharpBS
             _projectPath = path;
             Log.Information("Opening project at: {Path}", _projectPath);
 
-            BSProject project = new BSProject(_projectPath);
-            
-            Log.Information("Project: {Name}", project.Name);
+            Project = BSProject.fromFile(_projectPath);
+
+            Log.Information("Project: {Name}", Project.Name);
         }
         
         //Parse args
@@ -40,5 +45,8 @@ namespace SharpBS
         //Find Plugins
 
         //Run steps
+        
+        
+        
     }
 }

@@ -5,6 +5,7 @@ using System.Text.Json;
 using Serilog;
 using SharpBS.Model;
 using SharpBS.Plugins;
+using SharpBS.Utils;
 
 namespace SharpBS
 {
@@ -12,38 +13,56 @@ namespace SharpBS
     {
         public string Name { get; private set; }
 
+        public string ProjectRoot { get; private set; }
+        
         public List<IPlugin> plugins = new();
         
-        public BSProject(string path)
+
+        private BSProject(ProjectConfig conf, string path)
         {
-            var conf = LoadConfig(path);
             this.Name = conf.Name;
 
-            foreach (var plugin in conf.Plugins)
+            this.ProjectRoot = path;
+            
+            if (conf.Plugins.Count > 0)
             {
-               var p = PluginProvider.GetPlugin(plugin);
+                foreach (var plugin in conf.Plugins)
+                {
+                    var p = PluginProvider.GetPlugin(plugin, this);
 
-               if (p == null)
-               { 
-                   Log.Error("Could not find {Plugin} plugin", plugin);
-                   continue;
-               }
-               
-               plugins.Add(p);
+                    if (p == null)
+                    {
+                        Log.Error("Could not find {Plugin} plugin", plugin);
+                        continue;
+                    }
+
+                    plugins.Add(p);
+                }
             }
         }
-        
-        //Load config
-        public ProjectConfig LoadConfig(string projectFile)
+
+        public static BSProject fromFile(string path)
         {
-            projectFile = Path.GetFullPath(projectFile);
-            
-            FileInfo file = new FileInfo(projectFile);
-            if (!file.Exists)
-                throw new Exception("[PROJECT] I miss you.\n There is no json file at: " + projectFile);
+            var file = FileUtils.GetFile(path);
 
             var jsonString = File.ReadAllText(file.ToString());
 
+            
+            var projectRoot = file.Directory?.FullName ?? "";
+
+            var fromJsonString = FromJsonString(jsonString, projectRoot);
+            return fromJsonString;
+        }
+        
+        public static BSProject FromJsonString(string Json, string path)
+        {
+            var conf = LoadConfig(Json);
+            return new BSProject(conf, path);
+        }
+        
+        //Load config
+        public static ProjectConfig LoadConfig(string jsonString)
+        {
             var proj = JsonSerializer.Deserialize<ProjectConfig>(jsonString);
             var config = proj ?? throw new Exception("WTF?");
             

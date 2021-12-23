@@ -1,0 +1,6 @@
+Artifact
+- hash
+- time
+- file name
+- output hash
+

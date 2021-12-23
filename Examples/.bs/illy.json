@@ -1,0 +1,45 @@
+﻿{
+  "name": "BS",
+  "version": "0.0.1",
+  "authors": ["Anthony Anderson"],
+  "license": "MPL-2",
+  "plugins":["cc"],
+
+  "cc": {
+    "out": "bs",
+
+    "toolchain": {
+      "compiler": "clang",
+      "architectures": ["x64", "x32"],
+      "platforms": ["linux", "windows"]
+    },
+
+    "source": {
+      "src": ["${workDir}/src/${GLOB}"],
+      "inc": ["${workDir}/include/"]
+    },
+
+    "build": {
+      "compile": [
+        "${cc:debug}",
+        "-I${cc::source:inc}",
+        "${cc:source::src}"
+      ]
+    }
+  },
+
+  "runners": [
+    {
+      "name": "release",
+      "targets": ["${cc:build:compile}"],
+      "default": false,
+      "properties": []
+    },
+    {
+      "name": "debug",
+      "targets": ["${cc:build:compile}"],
+      "default": false,
+      "properties": ["debug"]
+    }
+  ]
+}

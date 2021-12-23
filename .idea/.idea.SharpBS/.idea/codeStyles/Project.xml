@@ -1,0 +1,12 @@
+﻿<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <JSON>
+      <option name="OBJECT_WRAPPING" value="1" />
+      <option name="ARRAY_WRAPPING" value="1" />
+    </JSON>
+    <codeStyleSettings language="JSON">
+      <option name="RIGHT_MARGIN" value="240" />
+      <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+    </codeStyleSettings>
+  </code_scheme>
+</component>
