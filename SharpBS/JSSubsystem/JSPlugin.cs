@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using Microsoft.ClearScript;
 using SharpBS.Utils;
 
@@ -47,6 +48,9 @@ namespace SharpBS.Plugins
             
         }
 
-        
+        public Step GetStep(string name, JsonElement config)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

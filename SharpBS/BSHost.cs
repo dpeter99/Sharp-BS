@@ -19,6 +19,7 @@ namespace SharpBS
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
+                .MinimumLevel.Debug()
                 .CreateLogger();
             
             Log.Information("Starting BS!");
@@ -31,7 +32,7 @@ namespace SharpBS
             _projectPath = path;
             Log.Information("Opening project at: {Path}", _projectPath);
 
-            Project = BSProject.fromFile(_projectPath);
+            Project = BSProject.FromFile(_projectPath);
 
             Log.Information("Project: {Name}", Project.Name);
         }
@@ -45,8 +46,12 @@ namespace SharpBS
         //Find Plugins
 
         //Run steps
-        
-        
-        
+
+
+        public void Build(bool graph)
+        {
+            Project.BuildGraph();
+            
+        }
     }
 }

@@ -1,7 +1,7 @@
 {
   "name": "Chroma",
   "version": "0.0.2",
-  "authors": ["Anthony Anderson", "and mee"],
+  "authors": ["and mee"],
   "license": "MPL-2",
   
   "variables": {
@@ -18,38 +18,27 @@
         "compiler": "x86_64-elf-gcc",
         "architectures": ["x64"],
         "platforms": ["Generic"]
-      },
-      "source": {
-        "src": ["${kernel_src}"],
-        "inc": ["${kernel_inc}"]
-      },
-      "tasks": {
-        "compile":[
-          "${debug}",
-          "-ffreestanding -O0 -Wall -Wextra -Wall -Werror -fPIC -fno-exceptions -fno-omit-frame-pointer -mno-red-zone -fno-stack-protector -ggdb3",
-          "${source::src}"
-        ],
-        "link": [
-          "Legend of Zelda?"
-        ]
-      }
-    },
-    {
-      "plugin": "cli",
-      "tasks": {
-        "make_iso":[
-          "./post.sh"
-        ]
       }
     }
   ],
   
   "steps": [
-    "@{cc::tasks::compile}",
-    "@{cc::tasks::link}",
     {
-      "if": "${debug}",
-      "task": "@{cli::tasks::make_iso}"
+      "task": "@{cc::compile}",
+      "src": ["${kernel_src}"],
+      "params": [
+        "${debug}",
+        "-ffreestanding -O0 -Wall -Wextra -Wall -Werror -fPIC -fno-exceptions -fno-omit-frame-pointer -mno-red-zone -fno-stack-protector -ggdb3",
+        "${FILE}"
+      ]
+    },
+    {
+      "task": "@{cc::link}",
+      "params": [
+        "${debug}",
+        "legend of zelda",
+        "${kernel_inc}"
+      ]
     }
   ],
   

@@ -35,13 +35,18 @@ namespace SharpBS
             {
                 var constr = plugin.Type.GetConstructor(BindingFlags.Public, Type.EmptyTypes);
 
-                var p = Activator.CreateInstance(plugin.Type) as IPlugin;
+                var args = new object[]
+                {
+                    project
+                };
+
+                var p = Activator.CreateInstance(plugin.Type,args:args) as IPlugin;
                 return p;
             }
             
             
             //Check for js files in .bs/plugins/
-            
+            /*
             var localPlugins = new DirectoryInfo($"{project.ProjectRoot}/.bs/plugins/")
                 .EnumerateFiles(name+".js",SearchOption.AllDirectories)
                 .FirstOrDefault();
@@ -49,7 +54,7 @@ namespace SharpBS
             if (localPlugins != null)
                 return new JSPlugin(localPlugins.FullName);
             
-            
+            */
             return null;
         }
     }
